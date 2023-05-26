@@ -1,0 +1,1 @@
+export JACKAL_URDF_EXTRAS=$(rospack find jackal_kimera_sim)/urdf/realsense.urdf.xacro

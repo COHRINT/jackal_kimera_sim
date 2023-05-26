@@ -1,0 +1,32 @@
+<launch>    
+    <!-- Set jackal args -->
+    <arg name="ns0" default="tars"/>
+    <arg name="ns1" default="kipp"/>
+    <arg name="ns2" default="case"/>
+    <arg name="config0"    default="base"/>
+    <arg name="config0_id" default="0"/>
+    <arg name="config1"    default="velodyne"/>
+    <arg name="config1_id" default="2"/>
+    
+    <!-- Set gazebo parameters -->
+    <arg name="debug" default="false" />
+    <arg name="headless" default="false" />
+    <arg name="gui" default="true" />
+    <arg name="pause" default="false" />
+    <arg name="use_sim_time" default="true" />
+    <arg name="verbose" default="false" />
+    <arg name="world" default="$(find jackal_kimera_sim)/world/experiment.world" />
+
+    <!-- Include gazebo launcher -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="headless" value="$(arg headless)" />
+        <arg name="paused" value="$(arg pause)" />
+        <arg name="use_sim_time" value="true" />
+        <arg name="verbose" value="$(arg verbose)" />
+        <arg name="world_name" value="$(arg world)" />
+    </include>
+
+	<include file="$(find jackal_gazebo)/launch/spawn_jackal.launch"/>
+</launch>
