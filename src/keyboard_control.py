@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# Script I was using to move jackals around in the simulation
+
+
 import rospy
 from geometry_msgs.msg import Twist
 import sys, select, termios, tty

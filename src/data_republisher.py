@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# Think I can delete this file
+
+
 import rospy
 from sensor_msgs.msg import Image, Imu
 
@@ -15,8 +18,8 @@ class Republiser:
 		self.imu_data = None
 		self.img2_data = None
 
-		rospy.Subscriber("/camera/infra2/image_raw", Image, callback=self.image1_callback)
-		rospy.Subscriber("/camera/infra1/image_raw", Image, callback=self.image2_callback)
+		rospy.Subscriber("/camera/infra1/image_raw", Image, callback=self.image1_callback)
+		rospy.Subscriber("/camera/infra2/image_raw", Image, callback=self.image2_callback)
 		rospy.Subscriber("/imu/data", Imu, callback=self.imu_callback)
 
 
