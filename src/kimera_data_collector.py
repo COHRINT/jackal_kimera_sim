@@ -10,7 +10,8 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import Bool
 import numpy as np
 
-TEST_NAME = "BASE_TEST_LCD"
+TEST_NAME = "data/TYCHO_TEST_DYNAMIC_BAG"
+SIM = True
 
 
 class DataCollector:
@@ -19,7 +20,10 @@ class DataCollector:
 		self.truth_data = []
 		self.single_truth = None
 
-		rospy.Subscriber("/vicon/firefly_sbx/firefly_sbx", TransformStamped, callback=self.truth_callback)
+		if SIM:
+			rospy.Subscriber("/tars/odometry/global_filtered", Odometry, callback=self.truth_callback)
+		else:
+			rospy.Subscriber("/vicon/firefly_sbx/firefly_sbx", TransformStamped, callback=self.truth_callback)
 		rospy.Subscriber("/kimera_vio_ros/odometry", Odometry, callback=self.kimera_callback)
 		rospy.Subscriber("/save", Bool, callback=self.save_callback)
 
@@ -32,9 +36,14 @@ class DataCollector:
 		self.kimera_data.append([msg.pose.pose.position.x,
 								msg.pose.pose.position.y,
 								msg.pose.pose.position.z])
-		self.truth_data.append([self.single_truth.transform.translation.x,
-								self.single_truth.transform.translation.y,
-								self.single_truth.transform.translation.z])
+		if SIM:
+			self.truth_data.append([self.single_truth.pose.pose.position.x,
+									self.single_truth.pose.pose.position.y,
+									self.single_truth.pose.pose.position.z])
+		else:
+			self.truth_data.append([self.single_truth.transform.translation.x,
+									self.single_truth.transform.translation.y,
+									self.single_truth.transform.translation.z])
 
 	def save_callback(self, msg):
 		print("saving data")

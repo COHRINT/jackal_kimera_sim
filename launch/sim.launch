@@ -15,7 +15,7 @@
     <arg name="pause" default="false" />
     <arg name="use_sim_time" default="true" />
     <arg name="verbose" default="false" />
-    <arg name="world" default="$(find jackal_kimera_sim)/world/experiment.world" />
+    <arg name="world" default="$(find multi_slam_and_tracking_ros)/world/experiment.world" />
 
     <!-- Include gazebo launcher -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -28,5 +28,39 @@
         <arg name="world_name" value="$(arg world)" />
     </include>
 
-	<include file="$(find jackal_gazebo)/launch/spawn_jackal.launch"/>
+    <!-- Launch agents -->
+    <include file="$(find multi_jackal_base)/launch/jackal_base_agent_kimera.launch">
+        <arg name="ns"            value="$(arg ns0)"/>
+        <!-- <arg name="config"        value="$(arg config0)"/> -->
+        <!-- <arg name="config_id"     value="$(arg config0_id)"/> -->
+        <arg name="use_move_base" value="true"/>
+        <arg name="x"             value="-4" />
+        <!-- <arg name="yaw"           value="1.8" /> -->
+    </include>
+    <include file="$(find multi_jackal_base)/launch/jackal_base_agent.launch">
+        <arg name="ns"            value="$(arg ns1)"/>
+        <arg name="config"        value="$(arg config1)"/>
+        <arg name="config_id"     value="$(arg config1_id)"/>
+        <arg name="use_move_base" value="true"/>
+        <arg name="x"             value="4"/>
+        <!-- <arg name="yaw"           value="2.7" /> -->
+    </include>
+
+    <!-- Launch targets -->
+    <include file="$(find multi_jackal_base)/launch/jackal_base_target.launch">
+        <arg name="ns"            value="tycho_bot_1"/>
+        <arg name="use_move_base" value="true"/>
+        <arg name="y"             value="8" />
+    </include>
+
+    <!-- Link Coordinate Frames -->
+    <node name="tars_map_transform" pkg="tf2_ros" type="static_transform_publisher" args="-4 0 0 0 0 0 map tars/map" />
+    <node name="kipp_map_transform" pkg="tf2_ros" type="static_transform_publisher" args="4 0 0 0 0 0 map kipp/map" />
+    <node name="tycho_bot_1_map_transform" pkg="tf2_ros" type="static_transform_publisher" args="0 8 0 0 0 0 map tycho_bot_1/odom" />
+
+    <!-- Make targets and agents move -->
+    <!-- <node name="target_driving" type="circle.py" pkg="multi_slam_and_tracking_ros" args="tycho_bot_1"/> -->
+    <!-- <node name="tars_driving" type="circle.py" pkg="multi_slam_and_tracking_ros" args="tars"/> -->
+    <node name="kipp_driving" type="circle.py" pkg="multi_slam_and_tracking_ros" args="kipp"/>
+
 </launch>

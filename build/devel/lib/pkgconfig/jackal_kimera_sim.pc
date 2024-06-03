@@ -1,0 +1,8 @@
+prefix=/home/cohrint/catkin_ws/src/jackal_kimera_sim/build/devel
+
+Name: jackal_kimera_sim
+Description: Description of jackal_kimera_sim
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp rospy std_msgs message_runtime

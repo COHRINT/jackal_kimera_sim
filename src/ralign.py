@@ -45,14 +45,14 @@ def ralign(X,Y):
     U,D,V = np.linalg.svd(Sxy,full_matrices=True,compute_uv=True)
     V=V.T.copy()
     #print U,"\n\n",D,"\n\n",V
-    r = np.rank(Sxy)
+    r = np.ndim(Sxy)
     d = np.linalg.det(Sxy)
     S = np.eye(m)
     if r > (m - 1):
-        if ( np.det(Sxy) < 0 ):
+        if ( np.linalg.det(Sxy) < 0 ):
             S[m, m] = -1;
         elif (r == m - 1):
-            if (np.det(U) * np.det(V) < 0):
+            if (np.linalg.det(U) * np.linalg.det(V) < 0):
                 S[m, m] = -1  
         else:
             R = np.eye(2)

@@ -9,8 +9,9 @@ from mpl_toolkits.mplot3d import Axes3D
 import ralign
 import tf.transformations as tft
 from scipy.spatial.transform import Rotation 
+import math
 
-TEST_NAME = "data/BASE_TEST"
+TEST_NAME = "data/TYCHO_TEST_DYNAMIC_BAG"
 
 # Opens saved data and loads them
 with open(TEST_NAME + '_truth.npy', 'rb') as f:
@@ -21,7 +22,7 @@ with open(TEST_NAME + '_kimera.npy', 'rb') as f:
 
 # Calculates the frame difference between truth and estimates
 R, c, t = ralign.ralign(kimera.T, truth.T)
-r =  Rotation.from_dcm(R)
+r =  Rotation.from_matrix(R)
 angles = r.as_euler("xyz")
 
 transform = tft.compose_matrix(translate=t, angles=angles)
@@ -42,6 +43,18 @@ xt = [point[0] for point in truth]
 yt = [point[1] for point in truth]
 zt = [point[2] for point in truth]
 
+print('Truth:', truth[0,:] )
+print('Kimera transformed:', transformed_kimera[0] )
+print('Kimera ', kimera[0,:] )
+print('Initial delta', np.abs(truth[0,:]-transformed_kimera[0] ) )
+
+delta = truth-transformed_kimera
+
+MSE = np.square(delta).mean() 
+ 
+RMSE = math.sqrt(MSE)
+print("Root Mean Square Error:\n")
+print(RMSE)
 
 # Graphs them with matplotlib
 fig = plt.figure()

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/cohrint/catkin_ws/src/jackal_kimera_sim/build/devel/setup.sh

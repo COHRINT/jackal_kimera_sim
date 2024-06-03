@@ -1,0 +1,6 @@
+int16[] timeSteps
+---
+int16 matrixDim 
+float64[] infMat 
+float64[] infVec 
+int16 cur_key 
